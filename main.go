@@ -1,33 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"sort"
+
+	"github.com/iamtony/golang/hackerrank/easy"
 )
 
-type User struct {
-	Name    string
-	Address string
-}
+// type User struct {
+// 	Name    string
+// 	Address string
+// }
 
 func main() {
-	// func main() {
-	// fmt.Println(getTotalX([]int32{2, 4}, []int32{16, 32, 96}))
-	// // 10 5 20 20 4 5 2 25 1
-	// fmt.Println(breakingRecords([]int32{10, 5, 20, 20, 4, 5, 2, 25, 1}))
-
-	// year := 1918
-	// // dayOfYear := 256
-
-	// // Construct the date using time.Date function
-	// date := time.Date(year, time.February, 14, 0, 0, 0, 0, time.UTC).AddDate(0, 0, 256-32)
-
-	// fmt.Printf("The 256th day of %d is on %s\n", year, date.Format("2006-01-02"))
-
-	// user := User{}
-	// user.Name = "nttung"
-
-	// fmt.Println(user)
+	// fmt.Println(math.Ceil(3.2), math.Round(3.7))
+	fmt.Println(easy.Birthday([]int32{1, 2, 1, 3, 2}, 3, 2))
+	fmt.Println(easy.DivisibleSumPairs(6, 3, []int32{1, 3, 2, 6, 1, 2}))
 }
 
 func breakingRecords(scores []int32) []int32 {
