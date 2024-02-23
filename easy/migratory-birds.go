@@ -4,7 +4,7 @@ package easy
 /* The function accepts INTEGER_ARRAY arr as parameter.
  */
 
-func migratoryBirds(arr []int32) int32 {
+func MigratoryBirds(arr []int32) int32 {
 	// Write your code here
 	m := map[int32]int{}
 	for _, num := range arr {

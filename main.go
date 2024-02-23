@@ -1,82 +1,95 @@
 package main
 
 import (
+	"crypto/rand"
 	"fmt"
-	"math"
-	"sort"
-
-	"github.com/iamtony/golang/hackerrank/easy"
+	"math/big"
 )
 
-// type User struct {
-// 	Name    string
-// 	Address string
-// }
+func randomBetweenInt64(min, max int64) int64 {
+	n, err := rand.Int(rand.Reader, big.NewInt(int64(max-min)))
+	if err != nil {
+		panic(err) // Handle errors appropriately
+	}
+
+	return n.Int64() + min
+}
+
+type User struct {
+	A int
+	B map[int]int
+}
 
 func main() {
-	// fmt.Println(math.Ceil(3.2), math.Round(3.7))
-	fmt.Println(easy.Birthday([]int32{1, 2, 1, 3, 2}, 3, 2))
-	fmt.Println(easy.DivisibleSumPairs(6, 3, []int32{1, 3, 2, 6, 1, 2}))
+	arr := [][]int32{{112, 42, 83, 119}, {56, 125, 56, 49}, {15, 78, 101, 43}, {62, 98, 114, 119}}
+	fmt.Println(flippingMatrix(arr))
 }
 
-func breakingRecords(scores []int32) []int32 {
+func flippingMatrix(matrix [][]int32) int32 {
 	// Write your code here
-	var min int32 = math.MaxInt32
-	var max int32 = math.MinInt32
-
-	var maxCount, minCount int32
-
-	for _, score := range scores {
-		if score < min {
-			if min != math.MaxInt32 {
-				minCount += 1
-			}
-
-			min = score
+	n := len(matrix[0]) / 2
+	length := len(matrix)
+	for i := range matrix {
+		start := []int32{}
+		end := []int32{}
+		for j := 0; j < n; j++ {
+			start = append(start, matrix[j][i])
+			end = append(end, matrix[j][length-i-1])
 		}
 
-		if score > max {
-			if max != math.MinInt32 {
-				maxCount += 1
+		if sum(start) < sum(end) {
+			for j := 0; j < n; j++ {
+				temp := matrix[j][i]
+				matrix[j][i] = matrix[j][length-i-1]
+				matrix[j][length-i-1] = temp
 			}
-			max = score
 		}
 	}
 
-	return []int32{maxCount, minCount}
-}
-
-func getTotalX(a []int32, b []int32) int32 {
-	// Write your code here
-	sort.SliceStable(a, func(i, j int) bool {
-		return a[i] < a[j]
-	})
-
-	sort.SliceStable(b, func(i, j int) bool {
-		return b[i] < b[j]
-	})
-
-	start := a[len(a)-1]
-	end := b[0]
-
-	rs := []int32{}
-
-LOOP:
-	for i := start; i <= end; i++ {
-		for _, v := range a {
-			if i%v != 0 {
-				continue LOOP
-			}
+	sumUpperLeftQuadrant := int32(0)
+	for i := 0; i < n; i++ {
+		row := matrix[i]
+		if sum(row[:n]) > sum(row[len(matrix[i])-n:]) {
+			sumUpperLeftQuadrant += sum(row[:n])
+		} else {
+			sumUpperLeftQuadrant += sum(row[len(matrix[i])-n:])
 		}
-
-		for _, v := range b {
-			if v%i != 0 {
-				continue LOOP
-			}
-		}
-
-		rs = append(rs, i)
 	}
 
-	return int32(len(rs))
+	return sumUpperLeftQuadrant
+}
+
+func sum(arr []int32) int32 {
+	sum := int32(0)
+	for _, num := range arr {
+		sum += num
+	}
+	return sum
+}
+
+func countContinuedValues(input []string) []int {
+	counts := make([]int, 0)
+	currentCount := 1
+	for i := 1; i < len(input); i++ {
+		if input[i] == input[i-1] {
+			currentCount++
+		} else {
+			counts = append(counts, currentCount)
+			currentCount = 1
+		}
+	}
+	counts = append(counts, currentCount)
+
+	fmt.Println(counts)
+	results := make([]int, 0)
+	for _, count := range counts {
+		results = append(results, count)
+		if count > 1 {
+			for i := 1; i < count; i++ {
+				results = append(results, count)
+			}
+		}
+	}
+
+	return results
 }
