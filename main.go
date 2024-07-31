@@ -20,9 +20,27 @@ type User struct {
 	B map[int]int
 }
 
+// FisherYatesShuffle shuffles the elements in the slice
+func FisherYatesShuffle[T any](slice []T) {
+	for i := len(slice) - 1; i > 0; i-- {
+		n, err := rand.Int(rand.Reader, big.NewInt(int64(i+1)))
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+		j := n.Int64()
+		slice[i], slice[j] = slice[j], slice[i]
+	}
+}
+
 func main() {
-	arr := [][]int32{{112, 42, 83, 119}, {56, 125, 56, 49}, {15, 78, 101, 43}, {62, 98, 114, 119}}
-	fmt.Println(flippingMatrix(arr))
+	slice := []int{1, 2, 3, 4, 5}
+	FisherYatesShuffle(slice)
+	fmt.Println(slice)
+
+	strSlice := []string{"a", "b", "c", "d", "e"}
+	FisherYatesShuffle(strSlice)
+	fmt.Println(strSlice)
 }
 
 func flippingMatrix(matrix [][]int32) int32 {
