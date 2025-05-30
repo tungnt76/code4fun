@@ -8,25 +8,19 @@ type ListNode struct {
 }
 
 func newListNode(values []int) *ListNode {
-	var head *ListNode
-	var pointer *ListNode
+	head := &ListNode{}
+	pointer := head
 
-	for i := 0; i < len(values); i++ {
+	for _, value := range values {
 		curNode := &ListNode{
-			Val: i,
-		}
-
-		if i == 0 {
-			head = curNode
-			pointer = head
-			continue
+			Val: value,
 		}
 
 		pointer.Next = curNode
 		pointer = pointer.Next
 	}
 
-	return head
+	return head.Next
 }
 
 func print(head *ListNode) {
